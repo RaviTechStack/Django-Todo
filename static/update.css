@@ -1,0 +1,7 @@
+.update-todo-input{
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 0;
+}

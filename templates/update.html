@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="{% static 'update.css' %}?{% now 'U' %}">
+
+</head>
+
+<body>
+    <nav class="nav-bar flex">
+        <h1 id="logo">Your Todo</h1>
+        <ul id="menu-section" class="flex">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+        <form action="/" class="search center">
+            {% csrf_token %}
+            <input type="text" class="search-style">
+            <button type="submit" class="search-style">search</button>
+        </form>
+        <button class="user">
+            User
+        </button>
+    </nav>
+    <main class="main-body center">
+        <section class="todo-display">
+            <center><button class="addtodo">Add Your Task</button></center>
+            <table class="table">
+                <thead>
+                    <th>SR.NO</th>
+                    <th>Work</th>
+                    <th>Status</th>
+                    <th>Option</th>
+                </thead>
+                <tbody>
+                    {% for data in alldata %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{data.todoContent}}</td>
+                        <td><button class="green">Complete</button></td>
+                        <td><button class="red"><a href="/delete/{{data.todoId}}">DE</a></button>
+                            <button class="yellow" class="updt"><a href="/update/{{data.todoId}}">UP</a></button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </section>
+        <section class="update-todo-input center">
+            <form action="/update/{{change_data.todoId}}" class="add-todo-container  flex-col" method="post">
+                {% csrf_token %}
+                <label for="add-todo">Add Your TODO</label>
+                <input type="text" id="add-todo" placeholder="Add Your Todo Work here" name="content" value="{{change_data.todoContent}}">
+                <h2 class="cancel">X</h2>
+                <button type="submit" class="submit-todo"> Submit</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+<script>
+    let cancel = document.querySelector(".cancel")
+    cancel.addEventListener("click", () => {
+        window.location = "/"
+    })
+</script>
+
+</html>
